@@ -1,0 +1,170 @@
+{
+  "swagger_url": "http://localhost:3001/api",
+  "auth_note": "Bạn cần đăng ký tài khoản EMPLOYER trước, sau đó login để lấy JWT token",
+
+  "register_employer": {
+    "endpoint": "POST /auth/register",
+    "description": "Đăng ký tài khoản Employer để có quyền post job",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "employer@test.com",
+      "password": "password123",
+      "role": "employer"
+    },
+    "expected_response": {
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "refresh_token": "...",
+      "user": {
+        "id": "uuid",
+        "email": "employer@test.com",
+        "roles": ["employer"]
+      }
+    }
+  },
+
+  "register_hr": {
+    "endpoint": "POST /auth/register",
+    "description": "Đăng ký tài khoản HR (nếu cần test với role khác)",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "hr@test.com",
+      "password": "password123",
+      "role": "hr"
+    }
+  },
+
+  "register_job_seeker": {
+    "endpoint": "POST /auth/register",
+    "description": "Đăng ký tài khoản Job Seeker",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "jobseeker@test.com",
+      "password": "password123",
+      "role": "job_seeker"
+    }
+  },
+
+  "login_employer": {
+    "endpoint": "POST /auth/login",
+    "description": "Đăng nhập với tài khoản employer để lấy token",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "employer@test.com",
+      "password": "password123"
+    },
+    "expected_response": {
+      "access_token": "JWT_TOKEN_HERE - COPY THIS!",
+      "refresh_token": "REFRESH_TOKEN_HERE",
+      "user": {
+        "id": "user-uuid-here",
+        "email": "employer@test.com",
+        "roles": ["employer"]
+      }
+    }
+  },
+
+  "get_profile": {
+    "endpoint": "GET /auth/me",
+    "description": "Kiểm tra thông tin user hiện tại",
+    "headers": {
+      "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
+    },
+    "expected_response": {
+      "id": "user-uuid",
+      "email": "employer@test.com",
+      "roles": ["employer"],
+      "permissions": ["post_jobs", "manage_job_postings"]
+    }
+  },
+
+  "create_company": {
+    "endpoint": "POST /companies",
+    "description": "Tạo company profile (cần cho job posting)",
+    "headers": {
+      "Authorization": "Bearer YOUR_JWT_TOKEN_HERE",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "Test Company",
+      "description": "A test company for job posting",
+      "website": "https://testcompany.com",
+      "industry": "technology",
+      "size": "medium",
+      "city": "Hà Nội",
+      "country": "Việt Nam",
+      "logo": "https://example.com/logo.png"
+    },
+    "note": "Sau khi tạo company, copy company ID để dùng cho job posting"
+  },
+
+  "get_my_companies": {
+    "endpoint": "GET /companies/user/my-companies",
+    "description": "Lấy danh sách companies của user",
+    "headers": {
+      "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
+    },
+    "expected_response": [
+      {
+        "id": "COMPANY_ID_HERE - COPY THIS!",
+        "name": "Test Company",
+        "description": "A test company for job posting",
+        "website": "https://testcompany.com"
+      }
+    ]
+  },
+
+  "job_creation_flow": {
+    "step_1": "POST /auth/register - Đăng ký tài khoản employer",
+    "step_2": "POST /auth/login - Đăng nhập để lấy JWT token",
+    "step_3": "POST /companies - Tạo company profile",
+    "step_4": "GET /companies/user/my-companies - Lấy company ID",
+    "step_5": "POST /jobs - Tạo job với companyId và JWT token",
+    "important": "Đừng quên thay YOUR_COMPANY_ID_HERE bằng company ID thật từ step 4"
+  },
+
+  "available_roles": [
+    "admin",
+    "employer",
+    "hr",
+    "job_seeker"
+  ],
+
+  "permissions_needed_for_jobs": {
+    "post_jobs": "Cần permission này để tạo job",
+    "manage_job_postings": "Cần để update/delete jobs",
+    "create_company_profile": "Cần để tạo company"
+  },
+
+  "common_errors": {
+    "401_unauthorized": {
+      "cause": "JWT token missing, invalid, or expired",
+      "solution": "Login lại để lấy token mới"
+    },
+    "403_forbidden": {
+      "cause": "Không có permission POST_JOBS",
+      "solution": "Đăng ký với role EMPLOYER"
+    },
+    "404_company_not_found": {
+      "cause": "companyId không tồn tại",
+      "solution": "Tạo company trước hoặc dùng companyId đúng"
+    }
+  },
+
+  "test_sequence": [
+    "1. Register employer account",
+    "2. Login to get JWT token",
+    "3. Create company profile",
+    "4. Get company ID from my-companies endpoint",
+    "5. Replace YOUR_COMPANY_ID_HERE in job-test-data.json",
+    "6. Replace YOUR_JWT_TOKEN_HERE with actual token",
+    "7. Test job creation with Swagger"
+  ]
+}

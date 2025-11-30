@@ -1,0 +1,256 @@
+{
+  "swagger_url": "http://localhost:3001/api",
+  "auth_note": "Remember to include Bearer token in Authorization header for protected endpoints",
+  "test_cases": {
+
+    "create_job_basic": {
+      "endpoint": "POST /jobs",
+      "description": "Create a basic job posting",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "title": "Frontend Developer",
+        "description": "We are looking for a skilled frontend developer with experience in React and Next.js",
+        "companyId": "YOUR_COMPANY_ID_HERE",
+        "requirements": "3+ years experience with React, TypeScript, and modern frontend tools",
+        "benefits": "Competitive salary, health insurance, flexible working hours",
+        "jobType": "full_time",
+        "experienceLevel": "mid_level",
+        "salaryType": "monthly",
+        "minSalary": 15000000,
+        "maxSalary": 25000000,
+        "currency": "VND",
+        "city": "Hà Nội",
+        "country": "Việt Nam",
+        "remoteWork": true
+      }
+    },
+
+    "create_job_full": {
+      "endpoint": "POST /jobs",
+      "description": "Create a complete job posting with all optional fields",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "title": "Senior Backend Engineer",
+        "description": "Join our team as a Senior Backend Engineer working with Node.js, NestJS, and cloud technologies. You will be responsible for designing and implementing scalable APIs and microservices.",
+        "requirements": "5+ years of backend development experience, strong knowledge of Node.js, TypeScript, and database design. Experience with AWS or similar cloud platforms is a plus.",
+        "benefits": "Competitive salary package, comprehensive health insurance, professional development budget, flexible work arrangements, annual company retreats",
+        "jobType": "full_time",
+        "experienceLevel": "senior",
+        "salaryType": "yearly",
+        "minSalary": 120000,
+        "maxSalary": 180000,
+        "currency": "USD",
+        "city": "Ho Chi Minh City",
+        "state": "Ho Chi Minh",
+        "country": "Việt Nam",
+        "remoteWork": false,
+        "skillIds": ["skill-uuid-1", "skill-uuid-2"],
+        "tagIds": ["tag-uuid-1", "tag-uuid-2"],
+        "expiresAt": "2025-12-31T23:59:59Z",
+        "categoryId": "category-uuid-here",
+        "companyId": "YOUR_COMPANY_ID_HERE"
+      }
+    },
+
+    "create_job_minimal": {
+      "endpoint": "POST /jobs",
+      "description": "Create job with only required fields",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "title": "Junior Developer",
+        "description": "Entry level position for new graduates",
+        "companyId": "YOUR_COMPANY_ID_HERE"
+      }
+    },
+
+    "create_job_contract": {
+      "endpoint": "POST /jobs",
+      "description": "Create a contract/freelance job",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "title": "UI/UX Designer - Contract",
+        "description": "Short-term contract for UI/UX design project",
+        "companyId": "YOUR_COMPANY_ID_HERE",
+        "jobType": "contract",
+        "experienceLevel": "mid_level",
+        "salaryType": "hourly",
+        "minSalary": 50,
+        "maxSalary": 80,
+        "currency": "USD",
+        "remoteWork": true
+      }
+    },
+
+    "create_job_internship": {
+      "endpoint": "POST /jobs",
+      "description": "Create an internship position",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "title": "Software Engineering Intern",
+        "description": "Summer internship program for computer science students",
+        "companyId": "YOUR_COMPANY_ID_HERE",
+        "jobType": "internship",
+        "experienceLevel": "entry_level",
+        "salaryType": "monthly",
+        "minSalary": 3000000,
+        "maxSalary": 5000000,
+        "currency": "VND",
+        "city": "Đà Nẵng",
+        "country": "Việt Nam"
+      }
+    },
+
+    "get_all_jobs": {
+      "endpoint": "GET /jobs",
+      "description": "Get all published jobs with optional filtering",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
+      },
+      "query_params": {
+        "page": 1,
+        "limit": 10,
+        "search": "developer",
+        "jobType": "full_time",
+        "experienceLevel": "senior",
+        "city": "Hà Nội",
+        "remoteWork": true,
+        "minSalary": 10000000,
+        "maxSalary": 30000000
+      }
+    },
+
+    "get_job_by_id": {
+      "endpoint": "GET /jobs/{id}",
+      "description": "Get specific job by ID",
+      "note": "Replace {id} with actual job UUID"
+    },
+
+    "update_job": {
+      "endpoint": "PUT /jobs/{id}",
+      "description": "Update existing job posting",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "title": "Updated Job Title",
+        "description": "Updated job description",
+        "minSalary": 18000000,
+        "maxSalary": 28000000,
+        "remoteWork": true
+      }
+    },
+
+    "publish_job": {
+      "endpoint": "POST /jobs/{id}/publish",
+      "description": "Publish a draft job",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
+      }
+    },
+
+    "close_job": {
+      "endpoint": "POST /jobs/{id}/close",
+      "description": "Close a published job",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
+      }
+    },
+
+    "delete_job": {
+      "endpoint": "DELETE /jobs/{id}",
+      "description": "Delete a job posting",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
+      }
+    },
+
+    "get_company_jobs": {
+      "endpoint": "GET /jobs/company/{companyId}",
+      "description": "Get all jobs for a specific company",
+      "note": "Replace {companyId} with actual company UUID"
+    },
+
+    "get_my_jobs": {
+      "endpoint": "GET /jobs/user/my-jobs",
+      "description": "Get jobs from user's companies",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
+      }
+    }
+  },
+
+  "enum_values": {
+    "jobType": ["full_time", "part_time", "contract", "freelance", "internship"],
+    "experienceLevel": ["entry_level", "junior", "mid_level", "senior", "lead", "executive"],
+    "salaryType": ["hourly", "monthly", "yearly", "negotiable"]
+  },
+
+  "error_scenarios": {
+    "missing_required_fields": {
+      "body": {
+        "description": "Missing title and companyId"
+      },
+      "expected_error": "Validation failed"
+    },
+
+    "invalid_job_type": {
+      "body": {
+        "title": "Test Job",
+        "description": "Test description",
+        "companyId": "test-id",
+        "jobType": "invalid_type"
+      },
+      "expected_error": "jobType must be a valid enum value"
+    },
+
+    "negative_salary": {
+      "body": {
+        "title": "Test Job",
+        "description": "Test description",
+        "companyId": "test-id",
+        "minSalary": -1000
+      },
+      "expected_error": "minSalary must be a positive number"
+    },
+
+    "unauthorized_access": {
+      "headers": {},
+      "expected_status": 401,
+      "expected_error": "Unauthorized"
+    },
+
+    "insufficient_permissions": {
+      "headers": {
+        "Authorization": "Bearer INVALID_TOKEN"
+      },
+      "expected_status": 403,
+      "expected_error": "Forbidden"
+    }
+  },
+
+  "setup_instructions": [
+    "1. Start the backend server: cd backend && npm run start:dev",
+    "2. Access Swagger UI at: http://localhost:3001/api",
+    "3. Get a valid JWT token from authentication endpoint",
+    "4. Replace YOUR_JWT_TOKEN_HERE with actual token",
+    "5. Replace YOUR_COMPANY_ID_HERE with actual company UUID",
+    "6. Test endpoints in order: create -> read -> update -> publish -> close -> delete",
+    "7. Send error logs if any issues occur"
+  ]
+}
